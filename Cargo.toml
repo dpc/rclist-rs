@@ -1,0 +1,5 @@
+[package]
+
+name = "rclist"
+version = "0.0.1"
+authors = ["Dawid Ciężarkiewicz <dpc@dpc.pw>"]
