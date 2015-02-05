@@ -2,4 +2,11 @@
 
 name = "rclist"
 version = "0.0.1"
-authors = ["Dawid Ciężarkiewicz <dpc@dpc.pw>"]
+authors = [ "Dawid Ciężarkiewicz <dpc@dpc.pw>" ]
+description = "`RcList` is read-only, append-only list (log), that can share common tail (history) with other `RcList`."
+documentation = "http://www.rust-ci.org/dpc/rclist-rs/doc/rclist/"
+repository = "https://github.com/dpc/rclist-rs"
+homepage = "https://github.com/dpc/rclist-rs"
+readme = "README.md"
+keywords = ["data-structure", "list", "log", "permanent", "reference-counted"]
+license = "MIT"
