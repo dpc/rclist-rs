@@ -16,7 +16,7 @@ Example:
 Lists Y, X, Z are sharing history. Link between 3 and 4 is weak, which means
 after HEAD-Z is destroyed nodes 4 and 5 will be deallocated.
 
-Read [Documentation](//dpc.github.io/rclist-rs/doc/rclist/index.html) for details.
+Read [Documentation](//dpc.github.io/rclist-rs/) for details.
 
 See [issues](//github.com/dpc/rclist-rs/issues/) for TODO and BUGs.
 
