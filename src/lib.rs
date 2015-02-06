@@ -104,20 +104,38 @@ pub struct RcListIter<T: 'static> {
     iter : Link<Node<T>>,
 }
 
-impl<T : Clone> Iterator for RcListIter< T> {
+/// Reference to a `RcList` element
+pub struct Ref<T> {
+    rc : Rc<Node<T>>
+}
 
-    type Item = Rc<Node<T>>;
+impl<T : Clone> Ref<T> {
+    pub fn new(rc : Rc<Node<T>>) -> Ref<T> {
+        Ref{ rc: rc }
+    }
+}
+
+impl<T> Deref for Ref<T> {
+    type Target = T;
+    fn deref(&self) -> &T {
+        &self.rc.value
+    }
+}
+
+impl<T : Clone> Iterator for RcListIter<T> {
+
+    type Item = Ref<T>;
 
     #[inline]
-    fn next(&mut self) -> Option<Rc<Node<T>>> {
+    fn next(&mut self) -> Option<Ref<T>> {
         let ret = match self.iter {
             Link::None => None,
-            Link::Strong(ref rc) => Some(rc.clone()),
-            Link::Weak(ref weak) => weak.upgrade(),
+            Link::Strong(ref rc) => Some(Ref::new(rc.clone())),
+            Link::Weak(ref weak) => weak.upgrade().map(|rc| Ref::new(rc)),
         };
 
         self.iter = match ret {
-            Some(ref ret) => ret.next.clone(),
+            Some(ref ret) => ret.rc.next.clone(),
             None => Link::None
         };
 
