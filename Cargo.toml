@@ -9,4 +9,4 @@ repository = "https://github.com/dpc/rclist-rs"
 homepage = "https://github.com/dpc/rclist-rs"
 readme = "README.md"
 keywords = ["data-structure", "list", "log", "permanent", "reference-counted"]
-license = "MIT"
+license = "MIT OR Apache-2.0"
