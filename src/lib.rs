@@ -1,7 +1,3 @@
-#![feature(core)]
-#![feature(alloc)]
-#![allow(unused_features)]
-
 //! `RcList` is read-only, append only list (log), that can share common tail (history) with other `RcList`.
 //!
 //! This data structure supports:
@@ -17,18 +13,29 @@ use std::rc::{Rc, Weak};
 use std::iter::Iterator;
 use std::ops::Deref;
 
-#[derive(Clone, Debug)]
+#[derive(Debug)]
 enum Link<T> {
     Weak(Weak<T>),
     Strong(Rc<T>),
     None
 }
 
+impl<T> Clone for Link<T> {
+    fn clone(&self) -> Self {
+        match self {
+            &Link::Weak(ref x) => Link::Weak(x.clone()),
+            &Link::Strong(ref x) => Link::Strong(x.clone()),
+            &Link::None => Link::None
+        }
+
+    }
+}
+
 impl<T> Link<T> {
     fn downgrade(&self) -> Link<T> {
         match self {
             &Link::Weak(ref x) => Link::Weak(x.clone()),
-            &Link::Strong(ref x) => Link::Weak(x.downgrade()),
+            &Link::Strong(ref x) => Link::Weak(Rc::downgrade(x)),
             &Link::None => Link::None
         }
     }
@@ -63,7 +70,7 @@ impl<T> RcList<T> {
 
 }
 
-impl<T : Clone> RcList<T> {
+impl<T> RcList<T> {
     /// Create new `RcList` from value and existing `RcList`
     pub fn new_append(value : T, rest : &RcList<T>) -> RcList<T> {
         let first = rest.first.clone();
@@ -109,7 +116,7 @@ pub struct Ref<T> {
     rc : Rc<Node<T>>
 }
 
-impl<T : Clone> Ref<T> {
+impl<T> Ref<T> {
     pub fn new(rc : Rc<Node<T>>) -> Ref<T> {
         Ref{ rc: rc }
     }
@@ -122,7 +129,7 @@ impl<T> Deref for Ref<T> {
     }
 }
 
-impl<T : Clone> Iterator for RcListIter<T> {
+impl<T> Iterator for RcListIter<T> {
 
     type Item = Ref<T>;
 
