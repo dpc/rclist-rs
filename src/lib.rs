@@ -1,7 +1,3 @@
-#![feature(core)]
-#![feature(alloc)]
-#![allow(unused_features)]
-
 //! `RcList` is read-only, append only list (log), that can share common tail (history) with other `RcList`.
 //!
 //! This data structure supports:
