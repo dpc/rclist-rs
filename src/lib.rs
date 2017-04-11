@@ -24,7 +24,7 @@ impl<T> Link<T> {
     fn downgrade(&self) -> Link<T> {
         match self {
             &Link::Weak(ref x) => Link::Weak(x.clone()),
-            &Link::Strong(ref x) => Link::Weak(x.downgrade()),
+            &Link::Strong(ref x) => Link::Weak(Rc::downgrade(x)),
             &Link::None => Link::None
         }
     }
